@@ -26,325 +26,94 @@
     --red: #f87171;
     --red-dim: rgba(248,113,113,0.1);
     --amber: #fbbf24;
+    --amber-dim: rgba(251,191,36,0.1);
     --radius: 16px;
     --radius-sm: 10px;
     --font: 'DM Sans', sans-serif;
     --mono: 'DM Mono', monospace;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100dvh;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100dvh; padding-bottom: env(safe-area-inset-bottom); }
   .app { max-width: 480px; margin: 0 auto; padding: 0 0 120px; }
-
-  .header {
-    padding: 56px 20px 20px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-  }
-
+  .header { padding: 56px 20px 20px; display: flex; align-items: flex-end; justify-content: space-between; }
   .header h1 { font-size: 28px; font-weight: 300; letter-spacing: -0.5px; }
   .header p { font-size: 13px; color: var(--text3); margin-top: 2px; font-family: var(--mono); }
-
-  .notion-dot {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--green);
-    font-family: var(--mono);
-    background: var(--green-dim);
-    border: 1px solid var(--green-border);
-    padding: 5px 10px;
-    border-radius: 99px;
+  .notion-badge {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-family: var(--mono);
+    padding: 5px 10px; border-radius: 99px;
+    cursor: pointer; user-select: none;
+    color: var(--green); background: var(--green-dim); border: 1px solid var(--green-border);
   }
-  .notion-dot::before {
-    content: '';
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: blink 2s infinite;
-  }
+  .notion-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s infinite; }
+  .notion-badge.no-proxy { color: var(--amber); background: var(--amber-dim); border-color: rgba(251,191,36,0.3); }
+  .notion-badge.no-proxy::before { background: var(--amber); }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* Proxy-Warnung */
-  .proxy-warning {
-    margin: 0 16px 12px;
-    background: rgba(251,191,36,0.08);
-    border: 1px solid rgba(251,191,36,0.25);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    font-size: 12px;
-    font-family: var(--mono);
-    color: var(--amber);
-    line-height: 1.6;
-    display: none;
-  }
-  .proxy-warning.show { display: block; }
-  .proxy-warning strong { display: block; margin-bottom: 4px; }
-  .proxy-warning input {
-    width: 100%;
-    margin-top: 8px;
-    background: var(--surface2);
-    border: 1px solid rgba(251,191,36,0.3);
-    border-radius: 8px;
-    padding: 8px 10px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text);
-    outline: none;
-  }
-  .proxy-warning button {
-    margin-top: 6px;
-    background: rgba(251,191,36,0.15);
-    border: 1px solid rgba(251,191,36,0.3);
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--amber);
-    cursor: pointer;
-    width: 100%;
-  }
+  .settings-panel { margin: 0 16px 12px; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 16px; display: none; }
+  .settings-panel.show { display: block; }
+  .settings-title { font-size: 11px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .settings-panel input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 14px; font-family: var(--mono); font-size: 13px; color: var(--text); outline: none; margin-bottom: 8px; }
+  .settings-panel input::placeholder { color: var(--text3); }
+  .settings-row { display: flex; gap: 8px; }
+  .btn-settings-save { flex: 1; height: 40px; background: var(--green); color: #000; border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 14px; font-weight: 500; cursor: pointer; }
+  .btn-settings-clear { height: 40px; padding: 0 14px; background: none; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-family: var(--mono); font-size: 12px; color: var(--red); cursor: pointer; }
+  .settings-hint { font-size: 11px; font-family: var(--mono); color: var(--text3); margin-top: 8px; line-height: 1.5; }
 
-  .input-card {
-    margin: 0 16px 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .field {
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .field-label {
-    font-size: 11px;
-    font-family: var(--mono);
-    color: var(--text3);
-    min-width: 72px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    flex-shrink: 0;
-  }
-
-  .field input {
-    flex: 1;
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 16px;
-    padding: 16px 0 16px 12px;
-    width: 100%;
-    -webkit-appearance: none;
-  }
+  .input-card { margin: 0 16px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .field { display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid var(--border); }
+  .field-label { font-size: 11px; font-family: var(--mono); color: var(--text3); min-width: 72px; text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; }
+  .field input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-family: var(--font); font-size: 16px; padding: 16px 0 16px 12px; width: 100%; -webkit-appearance: none; }
   .field input::placeholder { color: var(--text3); }
-
-  .action-row {
-    display: flex;
-    gap: 10px;
-    padding: 12px 16px;
-    border-top: 1px solid var(--border);
-    align-items: center;
-  }
-
-  .btn-mic {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    border: 1px solid var(--border2);
-    background: var(--surface2);
-    color: var(--text2);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
-  .btn-mic.rec {
-    background: var(--red-dim);
-    border-color: var(--red);
-    color: var(--red);
-    animation: mic-pulse 1s infinite;
-  }
+  .action-row { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--border); align-items: center; }
+  .btn-mic { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border2); background: var(--surface2); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
+  .btn-mic.rec { background: var(--red-dim); border-color: var(--red); color: var(--red); animation: mic-pulse 1s infinite; }
   @keyframes mic-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.3)} 50%{box-shadow:0 0 0 8px rgba(248,113,113,0)} }
-
-  .btn-save {
-    flex: 1; height: 44px;
-    background: var(--green);
-    color: #000;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: var(--font);
-    font-size: 15px; font-weight: 500;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: opacity 0.15s, transform 0.1s;
-  }
+  .btn-save { flex: 1; height: 44px; background: var(--green); color: #000; border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 15px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.15s, transform 0.1s; }
   .btn-save:active { transform: scale(0.97); opacity: 0.85; }
-
-  .rec-status {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--red);
-    font-family: var(--mono);
-    padding: 0 16px 10px;
-  }
+  .rec-status { display: none; align-items: center; gap: 6px; font-size: 12px; color: var(--red); font-family: var(--mono); padding: 0 16px 10px; }
   .rec-status.show { display: flex; }
   .rec-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: blink 0.6s infinite; }
 
-  .page-link-row {
-    display: none;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px 0;
-    font-size: 12px;
-    font-family: var(--mono);
-    color: var(--text3);
-  }
+  .page-link-row { display: none; align-items: center; gap: 8px; padding: 10px 20px 0; font-size: 12px; font-family: var(--mono); color: var(--text3); }
   .page-link-row.show { display: flex; }
   .page-link-row a { color: var(--green); text-decoration: none; }
 
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 20px 10px;
-  }
-  .section-title {
-    font-size: 11px;
-    font-family: var(--mono);
-    color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 10px; }
+  .section-title { font-size: 11px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
   .section-actions { display: flex; gap: 8px; }
-
-  .btn-sm {
-    font-size: 12px;
-    font-family: var(--mono);
-    color: var(--text3);
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 4px 10px;
-    cursor: pointer;
-  }
+  .btn-sm { font-size: 12px; font-family: var(--mono); color: var(--text3); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 4px 10px; cursor: pointer; }
   .btn-sm.danger { color: var(--red); }
 
   .items { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
-
-  .empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text3);
-    font-size: 14px;
-    font-family: var(--mono);
-    border: 1px dashed var(--border);
-    border-radius: var(--radius);
-    white-space: pre-line;
-    line-height: 1.7;
-  }
-
-  .item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    animation: slideIn 0.2s ease;
-  }
+  .empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; font-family: var(--mono); border: 1px dashed var(--border); border-radius: var(--radius); white-space: pre-line; line-height: 1.7; }
+  .item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; animation: slideIn 0.2s ease; }
   @keyframes slideIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
   .item.synced { border-color: rgba(74,222,128,0.2); }
   .item.error { border-color: rgba(248,113,113,0.2); }
-
   .item-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
   .item-status.ok { background: var(--green); }
   .item-status.err { background: var(--red); }
   .item-status.pending { background: var(--amber); animation: blink 0.8s infinite; }
-
   .item-body { flex: 1; min-width: 0; }
   .item-topic { font-size: 15px; color: var(--text); word-break: break-word; line-height: 1.4; }
   .item-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; align-items: center; }
   .item-ts { font-size: 11px; font-family: var(--mono); color: var(--text3); }
-  .item-cat {
-    font-size: 11px; font-family: var(--mono);
-    padding: 2px 8px; border-radius: 6px;
-    background: var(--surface2); color: var(--text2);
-    border: 1px solid var(--border);
-  }
+  .item-cat { font-size: 11px; font-family: var(--mono); padding: 2px 8px; border-radius: 6px; background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
   .item-sync { font-size: 11px; font-family: var(--mono); }
   .item-sync.ok { color: var(--green); }
   .item-sync.err { color: var(--red); }
   .item-sync.pending { color: var(--amber); }
-
-  .item-del {
-    background: none; border: none;
-    color: var(--text3); font-size: 20px;
-    cursor: pointer; padding: 0 2px;
-    border-radius: 6px; line-height: 1;
-    flex-shrink: 0;
-  }
+  .item-del { background: none; border: none; color: var(--text3); font-size: 20px; cursor: pointer; padding: 0 2px; border-radius: 6px; line-height: 1; flex-shrink: 0; }
   .item-del:active { color: var(--red); }
 
-  .export-box {
-    margin: 16px 16px 0;
-    display: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
+  .export-box { margin: 16px 16px 0; display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
   .export-box.show { display: block; }
-  .export-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-  }
+  .export-top { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--border); }
   .export-top span { font-size: 11px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
-  #exp-box {
-    width: 100%; height: 90px;
-    background: none; border: none;
-    padding: 12px 14px;
-    font-size: 11px; font-family: var(--mono);
-    color: var(--text2); resize: none; outline: none;
-  }
+  #exp-box { width: 100%; height: 90px; background: none; border: none; padding: 12px 14px; font-size: 11px; font-family: var(--mono); color: var(--text2); resize: none; outline: none; }
 
-  .toast {
-    position: fixed;
-    bottom: calc(24px + env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    color: var(--text);
-    font-size: 13px; font-family: var(--mono);
-    padding: 10px 18px;
-    border-radius: 99px;
-    opacity: 0;
-    transition: all 0.25s;
-    pointer-events: none;
-    white-space: nowrap;
-    z-index: 100;
-  }
+  .toast { position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface2); border: 1px solid var(--border2); color: var(--text); font-size: 13px; font-family: var(--mono); padding: 10px 18px; border-radius: 99px; opacity: 0; transition: all 0.25s; pointer-events: none; white-space: nowrap; z-index: 100; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.ok { border-color: var(--green-border); color: var(--green); }
   .toast.err { border-color: rgba(248,113,113,0.3); color: var(--red); }
@@ -357,15 +126,17 @@
       <h1>Themen&shy;speicher</h1>
       <p id="entry-count">0 Einträge</p>
     </div>
-    <div class="notion-dot">Notion</div>
+    <div class="notion-badge no-proxy" id="notion-badge">Notion ⚙</div>
   </div>
 
-  <!-- Proxy-Einrichtung -->
-  <div class="proxy-warning show" id="proxy-box">
-    <strong>⚙ Proxy-URL eintragen</strong>
-    Trage hier deine Cloudflare Worker URL ein,<br>damit Notion funktioniert.
-    <input id="proxy-input" type="url" placeholder="https://dein-worker.workers.dev" />
-    <button id="proxy-save-btn">Speichern & verbinden</button>
+  <div class="settings-panel" id="settings-panel">
+    <div class="settings-title">Proxy-URL (Cloudflare Worker)</div>
+    <input id="proxy-input" type="url" placeholder="https://notion-proxy.NAME.workers.dev" />
+    <div class="settings-row">
+      <button class="btn-settings-save" id="proxy-save-btn">Speichern</button>
+      <button class="btn-settings-clear" id="proxy-clear-btn">Zurücksetzen</button>
+    </div>
+    <div class="settings-hint">Tippe auf "Notion ⚙" oben rechts um diese Einstellungen zu öffnen oder zu schließen.</div>
   </div>
 
   <div class="input-card">
@@ -423,43 +194,57 @@
 
 <script>
 const DB_ID = '34706a3121ef80858191c5c07907802e';
-
 let items = JSON.parse(localStorage.getItem('themen_v3') || '[]');
 let notionPageId = localStorage.getItem('themen_page_id') || null;
 let proxyUrl = localStorage.getItem('proxy_url') || '';
-let recognition = null;
-let isRecording = false;
+let recognition = null, isRecording = false;
 
-// Proxy-URL beim Start setzen
-if (proxyUrl) {
-  document.getElementById('proxy-input').value = proxyUrl;
-  document.getElementById('proxy-box').classList.remove('show');
+function updateBadge() {
+  const b = document.getElementById('notion-badge');
+  if (proxyUrl) { b.textContent = 'Notion ✓'; b.className = 'notion-badge'; }
+  else { b.textContent = 'Notion ⚙'; b.className = 'notion-badge no-proxy'; }
 }
+
+function initProxy() {
+  if (proxyUrl) document.getElementById('proxy-input').value = proxyUrl;
+  else document.getElementById('settings-panel').classList.add('show');
+  updateBadge();
+}
+
+document.getElementById('notion-badge').addEventListener('click', () => {
+  document.getElementById('settings-panel').classList.toggle('show');
+});
 
 document.getElementById('proxy-save-btn').addEventListener('click', () => {
   const val = document.getElementById('proxy-input').value.trim().replace(/\/$/, '');
   if (!val.startsWith('http')) { showToast('Bitte eine gültige URL eingeben', 'err'); return; }
   proxyUrl = val;
   localStorage.setItem('proxy_url', proxyUrl);
-  document.getElementById('proxy-box').classList.remove('show');
+  document.getElementById('settings-panel').classList.remove('show');
+  updateBadge();
   showToast('Proxy gespeichert ✓');
 });
 
-function apiUrl(path) {
-  return `${proxyUrl}/proxy/${path}`;
-}
+document.getElementById('proxy-clear-btn').addEventListener('click', () => {
+  proxyUrl = '';
+  localStorage.removeItem('proxy_url');
+  localStorage.removeItem('themen_page_id');
+  notionPageId = null;
+  document.getElementById('proxy-input').value = '';
+  document.getElementById('page-link-row').classList.remove('show');
+  updateBadge();
+  showToast('Zurückgesetzt');
+});
+
+function apiUrl(path) { return `${proxyUrl}/proxy/${path}`; }
 
 function fmt() {
-  return new Date().toLocaleString('de-DE', {
-    day: '2-digit', month: '2-digit', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
-  });
+  return new Date().toLocaleString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
 }
 
-function showToast(msg, type = 'ok') {
+function showToast(msg, type='ok') {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + type;
+  t.textContent = msg; t.className = 'toast show ' + type;
   setTimeout(() => { t.className = 'toast'; }, 2800);
 }
 
@@ -474,21 +259,15 @@ function updateCount() {
 function renderPageLink() {
   if (!notionPageId) return;
   document.getElementById('page-link-row').classList.add('show');
-  document.getElementById('page-link').href =
-    `https://notion.so/${notionPageId.replace(/-/g, '')}`;
+  document.getElementById('page-link').href = `https://notion.so/${notionPageId.replace(/-/g,'')}`;
 }
 
-function esc(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function render() {
   const list = document.getElementById('list');
   updateCount();
-  if (!items.length) {
-    list.innerHTML = `<div class="empty">Kein Thema gespeichert.\nEinfach oben eingeben\nund auf Speichern tippen.</div>`;
-    return;
-  }
+  if (!items.length) { list.innerHTML = `<div class="empty">Kein Thema gespeichert.\nEinfach oben eingeben\nund auf Speichern tippen.</div>`; return; }
   list.innerHTML = '';
   [...items].reverse().forEach((item, ri) => {
     const i = items.length - 1 - ri;
@@ -506,8 +285,7 @@ function render() {
           <span class="item-sync ${sc}">${sl}</span>
         </div>
       </div>
-      <button class="item-del" onclick="del(${i})">×</button>
-    `;
+      <button class="item-del" onclick="del(${i})">×</button>`;
     list.appendChild(div);
   });
 }
@@ -516,16 +294,10 @@ function del(i) { items.splice(i, 1); persist(); render(); }
 
 async function ensurePage() {
   if (notionPageId) return notionPageId;
-  if (!proxyUrl) throw new Error('Bitte zuerst Proxy-URL eintragen');
+  if (!proxyUrl) throw new Error('Bitte zuerst Proxy-URL eintragen (Notion ⚙)');
   const res = await fetch(apiUrl('pages'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      parent: { database_id: DB_ID },
-      properties: {
-        Name: { title: [{ text: { content: 'Themenspeicher' } }] }
-      }
-    })
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ parent: { database_id: DB_ID }, properties: { Name: { title: [{ text: { content: 'Themenspeicher' } }] } } })
   });
   if (!res.ok) throw new Error('Seite konnte nicht erstellt werden');
   const data = await res.json();
@@ -539,18 +311,8 @@ async function appendBlock(item) {
   const pageId = await ensurePage();
   const text = `${item.ts} | ${item.topic}${item.cat ? ' | ' + item.cat : ''}`;
   const res = await fetch(apiUrl(`blocks/${pageId}/children`), {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      children: [{
-        object: 'block',
-        type: 'to_do',
-        to_do: {
-          rich_text: [{ type: 'text', text: { content: text } }],
-          checked: false
-        }
-      }]
-    })
+    method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ children: [{ object: 'block', type: 'to_do', to_do: { rich_text: [{ type: 'text', text: { content: text } }], checked: false } }] })
   });
   if (!res.ok) throw new Error('Eintrag konnte nicht gespeichert werden');
 }
@@ -559,92 +321,56 @@ async function saveEntry() {
   const topic = document.getElementById('topic').value.trim();
   const cat = document.getElementById('cat').value.trim();
   if (!topic) { showToast('Bitte ein Thema eingeben', 'err'); return; }
-  if (!proxyUrl) { showToast('Bitte zuerst Proxy-URL eintragen', 'err'); return; }
-
+  if (!proxyUrl) { document.getElementById('settings-panel').classList.add('show'); showToast('Bitte zuerst Proxy-URL eintragen', 'err'); return; }
   const item = { topic, cat, ts: fmt(), synced: false, err: false };
-  items.push(item);
-  persist();
-  render();
+  items.push(item); persist(); render();
   document.getElementById('topic').value = '';
   document.getElementById('cat').value = '';
   showToast('Wird gespeichert…');
-
   try {
     await appendBlock(item);
     items[items.length - 1].synced = true;
     showToast('Gespeichert ✓');
-  } catch (e) {
+  } catch(e) {
     items[items.length - 1].err = true;
     showToast('Fehler: ' + e.message, 'err');
   }
-  persist();
-  render();
+  persist(); render();
 }
 
 document.getElementById('save-btn').addEventListener('click', saveEntry);
-document.getElementById('topic').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveEntry();
-});
+document.getElementById('topic').addEventListener('keydown', e => { if (e.key === 'Enter') saveEntry(); });
 
 document.getElementById('mic-btn').addEventListener('click', () => {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) { showToast('Sprache nur in Chrome/Edge verfügbar', 'err'); return; }
   if (isRecording) { recognition.stop(); return; }
   recognition = new SR();
-  recognition.lang = 'de-DE';
-  recognition.interimResults = false;
-  recognition.onstart = () => {
-    isRecording = true;
-    document.getElementById('mic-btn').classList.add('rec');
-    document.getElementById('rec-status').classList.add('show');
-  };
-  recognition.onresult = e => {
-    const t = e.results[0][0].transcript;
-    const el = document.getElementById('topic');
-    el.value = el.value ? el.value + ' ' + t : t;
-  };
-  recognition.onend = () => {
-    isRecording = false;
-    document.getElementById('mic-btn').classList.remove('rec');
-    document.getElementById('rec-status').classList.remove('show');
-  };
-  recognition.onerror = () => {
-    isRecording = false;
-    document.getElementById('mic-btn').classList.remove('rec');
-    document.getElementById('rec-status').classList.remove('show');
-    showToast('Spracheingabe fehlgeschlagen', 'err');
-  };
+  recognition.lang = 'de-DE'; recognition.interimResults = false;
+  recognition.onstart = () => { isRecording = true; document.getElementById('mic-btn').classList.add('rec'); document.getElementById('rec-status').classList.add('show'); };
+  recognition.onresult = e => { const t = e.results[0][0].transcript; const el = document.getElementById('topic'); el.value = el.value ? el.value + ' ' + t : t; };
+  recognition.onend = () => { isRecording = false; document.getElementById('mic-btn').classList.remove('rec'); document.getElementById('rec-status').classList.remove('show'); };
+  recognition.onerror = () => { isRecording = false; document.getElementById('mic-btn').classList.remove('rec'); document.getElementById('rec-status').classList.remove('show'); showToast('Spracheingabe fehlgeschlagen', 'err'); };
   recognition.start();
 });
 
 document.getElementById('export-btn').addEventListener('click', () => {
   if (!items.length) { showToast('Keine Einträge vorhanden', 'err'); return; }
-  const csv = 'Zeitstempel,Thema,Kategorie,Status\n' +
-    items.map(it =>
-      `"${it.ts}","${it.topic}","${it.cat || ''}","${it.synced ? 'OK' : 'Fehler'}"`
-    ).join('\n');
+  const csv = 'Zeitstempel,Thema,Kategorie,Status\n' + items.map(it => `"${it.ts}","${it.topic}","${it.cat || ''}","${it.synced ? 'OK' : 'Fehler'}"`).join('\n');
   document.getElementById('exp-box').value = csv;
   document.getElementById('exp-area').classList.toggle('show');
 });
 
 document.getElementById('copy-btn').addEventListener('click', () => {
-  navigator.clipboard.writeText(document.getElementById('exp-box').value)
-    .then(() => showToast('Kopiert ✓'))
-    .catch(() => showToast('Kopieren fehlgeschlagen', 'err'));
+  navigator.clipboard.writeText(document.getElementById('exp-box').value).then(() => showToast('Kopiert ✓')).catch(() => showToast('Kopieren fehlgeschlagen', 'err'));
 });
 
 document.getElementById('clear-btn').addEventListener('click', () => {
   if (!items.length) return;
-  if (confirm('Alle lokalen Einträge löschen?\n(Notion-Seite bleibt erhalten)')) {
-    items = [];
-    persist();
-    render();
-    document.getElementById('exp-area').classList.remove('show');
-  }
+  if (confirm('Alle lokalen Einträge löschen?\n(Notion-Seite bleibt erhalten)')) { items = []; persist(); render(); document.getElementById('exp-area').classList.remove('show'); }
 });
 
-render();
-renderPageLink();
+initProxy(); render(); renderPageLink();
 </script>
 </body>
 </html>
