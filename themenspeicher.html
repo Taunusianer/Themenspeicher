@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Themen">
+<meta name="theme-color" content="#0f0f0f">
+<title>Themenspeicher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #f0f0f0;
+    --text2: #888;
+    --text3: #555;
+    --green: #4ade80;
+    --green-dim: rgba(74,222,128,0.12);
+    --green-border: rgba(74,222,128,0.3);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.1);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251,191,36,0.1);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --font: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow-x: hidden;
+  }
+
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 0 120px;
+  }
+
+  /* Header */
+  .header {
+    padding: 56px 20px 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .header-left h1 {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+
+  .header-left p {
+    font-size: 13px;
+    color: var(--text3);
+    margin-top: 2px;
+    font-family: var(--mono);
+  }
+
+  .notion-dot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--green);
+    font-family: var(--mono);
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    padding: 5px 10px;
+    border-radius: 99px;
+  }
+
+  .notion-dot::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* Input Card */
+  .input-card {
+    margin: 0 16px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .field {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .field:last-of-type { border-bottom: none; }
+
+  .field-label {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--text3);
+    min-width: 72px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+
+  .field input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 16px;
+    font-weight: 400;
+    padding: 16px 0 16px 12px;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+
+  .field input::placeholder { color: var(--text3); }
+
+  /* Action Row */
+  .action-row {
+    display: flex;
+    gap: 10px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    align-items: center;
+  }
+
+  .btn-mic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .btn-mic.rec {
+    background: var(--red-dim);
+    border-color: var(--red);
+    color: var(--red);
+    animation: mic-pulse 1s infinite;
+  }
+
+  @keyframes mic-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.3)} 50%{box-shadow:0 0 0 8px rgba(248,113,113,0)} }
+
+  .btn-save {
+    flex: 1;
+    height: 44px;
+    background: var(--green);
+    color: #000;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-save:active { transform: scale(0.97); opacity: 0.85; }
+
+  /* Rec status */
+  .rec-status {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--red);
+    font-family: var(--mono);
+    padding: 0 16px 10px;
+  }
+  .rec-status.show { display: flex; }
+  .rec-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: blink 0.6s infinite; }
+
+  /* Section */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 20px 10px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .section-actions { display: flex; gap: 8px; }
+
+  .btn-sm {
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--text3);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-sm:hover, .btn-sm:active { border-color: var(--border2); color: var(--text2); }
+  .btn-sm.danger { color: var(--red); }
+  .btn-sm.danger:hover { border-color: var(--red); }
+
+  /* Items */
+  .items { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
+
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text3);
+    font-size: 14px;
+    font-family: var(--mono);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    line-height: 1.7;
+  }
+
+  .item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    animation: slideIn 0.2s ease;
+    transition: border-color 0.2s;
+  }
+
+  @keyframes slideIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
+
+  .item.synced { border-color: rgba(74,222,128,0.2); }
+  .item.error { border-color: rgba(248,113,113,0.2); }
+
+  .item-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .item-status.ok { background: var(--green); }
+  .item-status.err { background: var(--red); }
+  .item-status.pending { background: var(--amber); animation: blink 0.8s infinite; }
+
+  .item-body { flex: 1; min-width: 0; }
+
+  .item-topic {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text);
+    word-break: break-word;
+    line-height: 1.4;
+  }
+
+  .item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+    align-items: center;
+  }
+
+  .item-ts {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--text3);
+  }
+
+  .item-cat {
+    font-size: 11px;
+    font-family: var(--mono);
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--surface2);
+    color: var(--text2);
+    border: 1px solid var(--border);
+  }
+
+  .item-sync-label {
+    font-size: 11px;
+    font-family: var(--mono);
+  }
+  .item-sync-label.ok { color: var(--green); }
+  .item-sync-label.err { color: var(--red); }
+  .item-sync-label.pending { color: var(--amber); }
+
+  .item-del {
+    background: none;
+    border: none;
+    color: var(--text3);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    transition: color 0.15s;
+  }
+  .item-del:active { color: var(--red); }
+
+  /* Export */
+  .export-box {
+    margin: 16px 16px 0;
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .export-box.show { display: block; }
+
+  .export-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .export-top span {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  #exp-box {
+    width: 100%;
+    height: 90px;
+    background: none;
+    border: none;
+    padding: 12px 14px;
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--text2);
+    resize: none;
+    outline: none;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-size: 13px;
+    font-family: var(--mono);
+    padding: 10px 18px;
+    border-radius: 99px;
+    opacity: 0;
+    transition: all 0.25s;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 100;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .toast.ok { border-color: var(--green-border); color: var(--green); }
+  .toast.err { border-color: rgba(248,113,113,0.3); color: var(--red); }
+
+  /* Notion page link */
+  .page-link-row {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px 0;
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--text3);
+  }
+  .page-link-row.show { display: flex; }
+  .page-link-row a { color: var(--green); text-decoration: none; }
+
+  /* Install banner */
+  .install-banner {
+    margin: 0 16px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .install-banner p { font-size: 12px; color: var(--text2); font-family: var(--mono); line-height: 1.5; flex: 1; }
+  .install-banner button { font-size: 12px; font-family: var(--mono); background: none; border: 1px solid var(--border2); color: var(--text2); padding: 5px 10px; border-radius: 8px; cursor: pointer; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <div class="header-left">
+      <h1>Themen&shy;speicher</h1>
+      <p id="entry-count">0 Einträge</p>
+    </div>
+    <div class="notion-dot">Notion</div>
+  </div>
+
+  <div class="install-banner" id="install-banner" style="display:none">
+    <p>Zum Startbildschirm hinzufügen für Offline-Zugriff</p>
+    <button id="install-btn">+ Hinzufügen</button>
+  </div>
+
+  <div class="input-card">
+    <div class="field">
+      <span class="field-label">Thema</span>
+      <input id="topic" type="text" placeholder="Thema eingeben…" autocomplete="off" />
+    </div>
+    <div class="field">
+      <span class="field-label">Kategorie</span>
+      <input id="cat" type="text" placeholder="Arbeit · Idee · Privat…" autocomplete="off" />
+    </div>
+    <div class="action-row">
+      <button class="btn-mic" id="mic-btn" title="Spracheingabe">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <rect x="9" y="2" width="6" height="12" rx="3" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M5 11a7 7 0 0 0 14 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M12 18v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="btn-save" id="save-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        In Notion speichern
+      </button>
+    </div>
+    <div class="rec-status" id="rec-status">
+      <span class="rec-dot"></span> Aufnahme läuft — sprechen…
+    </div>
+  </div>
+
+  <div class="page-link-row" id="page-link-row">
+    <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#4ade80"/></svg>
+    <a id="page-link" href="#" target="_blank">Notion-Seite öffnen ↗</a>
+  </div>
+
+  <div class="section-header">
+    <span class="section-title">Einträge</span>
+    <div class="section-actions">
+      <button class="btn-sm" id="export-btn">Export</button>
+      <button class="btn-sm danger" id="clear-btn">Leeren</button>
+    </div>
+  </div>
+
+  <div class="items" id="list"></div>
+
+  <div class="export-box" id="exp-area">
+    <div class="export-top">
+      <span>CSV Export</span>
+      <button class="btn-sm" id="copy-btn">Kopieren</button>
+    </div>
+    <textarea id="exp-box" readonly></textarea>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const NOTION_TOKEN = 'ntn_i17816048476RPSeAy6fJTmeyfOVK6TxSKUs4SznMY4bmh';
+const DB_ID = '34706a3121ef80858191c5c07907802e';
+const HEADERS = {
+  'Authorization': `Bearer ${NOTION_TOKEN}`,
+  'Content-Type': 'application/json',
+  'Notion-Version': '2022-06-28'
+};
+
+let items = JSON.parse(localStorage.getItem('themen_v3') || '[]');
+let notionPageId = localStorage.getItem('themen_page_id') || null;
+let recognition = null;
+let isRecording = false;
+let deferredPrompt = null;
+
+function fmt() {
+  return new Date().toLocaleString('de-DE', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+}
+
+function showToast(msg, type = 'ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => { t.className = 'toast'; }, 2800);
+}
+
+function persist() {
+  localStorage.setItem('themen_v3', JSON.stringify(items));
+}
+
+function updateCount() {
+  document.getElementById('entry-count').textContent =
+    items.length === 0 ? 'Noch keine Einträge' :
+    items.length === 1 ? '1 Eintrag' : `${items.length} Einträge`;
+}
+
+function renderPageLink() {
+  if (!notionPageId) return;
+  const row = document.getElementById('page-link-row');
+  row.classList.add('show');
+  document.getElementById('page-link').href =
+    `https://notion.so/${notionPageId.replace(/-/g, '')}`;
+}
+
+function render() {
+  const list = document.getElementById('list');
+  updateCount();
+  if (!items.length) {
+    list.innerHTML = `<div class="empty">Kein Thema gespeichert.\nEinfach oben eingeben\nund auf Speichern tippen.</div>`;
+    return;
+  }
+  list.innerHTML = '';
+  [...items].reverse().forEach((item, ri) => {
+    const i = items.length - 1 - ri;
+    const sc = item.synced ? 'ok' : item.err ? 'err' : 'pending';
+    const sl = item.synced ? '✓ Notion' : item.err ? '✗ Fehler' : '… sync';
+    const div = document.createElement('div');
+    div.className = `item ${item.synced ? 'synced' : item.err ? 'error' : ''}`;
+    div.innerHTML = `
+      <div class="item-status ${sc}"></div>
+      <div class="item-body">
+        <div class="item-topic">${escHtml(item.topic)}</div>
+        <div class="item-meta">
+          <span class="item-ts">${item.ts}</span>
+          ${item.cat ? `<span class="item-cat">${escHtml(item.cat)}</span>` : ''}
+          <span class="item-sync-label ${sc}">${sl}</span>
+        </div>
+      </div>
+      <button class="item-del" onclick="del(${i})">×</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function del(i) {
+  items.splice(i, 1);
+  persist();
+  render();
+}
+
+async function ensurePage() {
+  if (notionPageId) return notionPageId;
+  const res = await fetch('https://api.notion.com/v1/pages', {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({
+      parent: { database_id: DB_ID },
+      properties: {
+        Name: { title: [{ text: { content: 'Themenspeicher' } }] }
+      }
+    })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || 'Seite konnte nicht erstellt werden');
+  }
+  const data = await res.json();
+  notionPageId = data.id;
+  localStorage.setItem('themen_page_id', notionPageId);
+  renderPageLink();
+  return notionPageId;
+}
+
+async function appendBlock(item) {
+  const pageId = await ensurePage();
+  const text = `${item.ts} | ${item.topic}${item.cat ? ' | ' + item.cat : ''}`;
+  const res = await fetch(`https://api.notion.com/v1/blocks/${pageId}/children`, {
+    method: 'PATCH',
+    headers: HEADERS,
+    body: JSON.stringify({
+      children: [{
+        object: 'block',
+        type: 'to_do',
+        to_do: {
+          rich_text: [{ type: 'text', text: { content: text } }],
+          checked: false
+        }
+      }]
+    })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || 'Eintrag konnte nicht gespeichert werden');
+  }
+}
+
+async function saveEntry() {
+  const topic = document.getElementById('topic').value.trim();
+  const cat = document.getElementById('cat').value.trim();
+  if (!topic) { showToast('Bitte ein Thema eingeben', 'err'); return; }
+
+  const item = { topic, cat, ts: fmt(), synced: false, err: false };
+  items.push(item);
+  persist();
+  render();
+  document.getElementById('topic').value = '';
+  document.getElementById('cat').value = '';
+  document.getElementById('topic').focus();
+  showToast('Wird gespeichert…');
+
+  try {
+    await appendBlock(item);
+    items[items.length - 1].synced = true;
+    showToast('Gespeichert ✓');
+  } catch (e) {
+    items[items.length - 1].err = true;
+    showToast('Notion-Fehler: ' + e.message, 'err');
+  }
+  persist();
+  render();
+}
+
+document.getElementById('save-btn').addEventListener('click', saveEntry);
+document.getElementById('topic').addEventListener('keydown', e => {
+  if (e.key === 'Enter') saveEntry();
+});
+
+// Spracheingabe
+document.getElementById('mic-btn').addEventListener('click', () => {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { showToast('Sprache nur in Chrome/Edge verfügbar', 'err'); return; }
+  if (isRecording) { recognition.stop(); return; }
+  recognition = new SR();
+  recognition.lang = 'de-DE';
+  recognition.interimResults = false;
+  recognition.continuous = false;
+  recognition.onstart = () => {
+    isRecording = true;
+    document.getElementById('mic-btn').classList.add('rec');
+    document.getElementById('rec-status').classList.add('show');
+  };
+  recognition.onresult = e => {
+    const t = e.results[0][0].transcript;
+    const el = document.getElementById('topic');
+    el.value = el.value ? el.value + ' ' + t : t;
+  };
+  recognition.onend = () => {
+    isRecording = false;
+    document.getElementById('mic-btn').classList.remove('rec');
+    document.getElementById('rec-status').classList.remove('show');
+  };
+  recognition.onerror = () => {
+    isRecording = false;
+    document.getElementById('mic-btn').classList.remove('rec');
+    document.getElementById('rec-status').classList.remove('show');
+    showToast('Spracheingabe fehlgeschlagen', 'err');
+  };
+  recognition.start();
+});
+
+// Export
+document.getElementById('export-btn').addEventListener('click', () => {
+  if (!items.length) { showToast('Keine Einträge vorhanden', 'err'); return; }
+  const csv = 'Zeitstempel,Thema,Kategorie,Status\n' +
+    items.map(it =>
+      `"${it.ts}","${it.topic}","${it.cat || ''}","${it.synced ? 'OK' : 'Fehler'}"`
+    ).join('\n');
+  document.getElementById('exp-box').value = csv;
+  const area = document.getElementById('exp-area');
+  area.classList.toggle('show');
+});
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  const val = document.getElementById('exp-box').value;
+  navigator.clipboard.writeText(val)
+    .then(() => showToast('Kopiert ✓'))
+    .catch(() => showToast('Kopieren fehlgeschlagen', 'err'));
+});
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  if (!items.length) return;
+  if (confirm('Alle lokalen Einträge löschen?\n(Notion-Seite bleibt erhalten)')) {
+    items = [];
+    persist();
+    render();
+    document.getElementById('exp-area').classList.remove('show');
+  }
+});
+
+// PWA Install
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-banner').style.display = 'flex';
+});
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    document.getElementById('install-banner').style.display = 'none';
+  }
+  deferredPrompt = null;
+});
+
+render();
+renderPageLink();
+</script>
+</body>
+</html>
