@@ -31,25 +31,24 @@
     --radius-sm: 10px;
     --font: 'DM Sans', sans-serif;
     --mono: 'DM Mono', monospace;
+    --p1: #f87171;
+    --p2: #fb923c;
+    --p3: #4ade80;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100dvh; padding-bottom: env(safe-area-inset-bottom); }
   .app { max-width: 480px; margin: 0 auto; padding: 0 0 120px; }
+
   .header { padding: 56px 20px 20px; display: flex; align-items: flex-end; justify-content: space-between; }
   .header h1 { font-size: 28px; font-weight: 300; letter-spacing: -0.5px; }
   .header p { font-size: 13px; color: var(--text3); margin-top: 2px; font-family: var(--mono); }
-  .notion-badge {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; font-family: var(--mono);
-    padding: 5px 10px; border-radius: 99px;
-    cursor: pointer; user-select: none;
-    color: var(--green); background: var(--green-dim); border: 1px solid var(--green-border);
-  }
+  .notion-badge { display: flex; align-items: center; gap: 6px; font-size: 12px; font-family: var(--mono); padding: 5px 10px; border-radius: 99px; cursor: pointer; user-select: none; color: var(--green); background: var(--green-dim); border: 1px solid var(--green-border); }
   .notion-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s infinite; }
   .notion-badge.no-proxy { color: var(--amber); background: var(--amber-dim); border-color: rgba(251,191,36,0.3); }
   .notion-badge.no-proxy::before { background: var(--amber); }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
+  /* Settings */
   .settings-panel { margin: 0 16px 12px; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 16px; display: none; }
   .settings-panel.show { display: block; }
   .settings-title { font-size: 11px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
@@ -60,13 +59,35 @@
   .btn-settings-clear { height: 40px; padding: 0 14px; background: none; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-family: var(--mono); font-size: 12px; color: var(--red); cursor: pointer; }
   .settings-hint { font-size: 11px; font-family: var(--mono); color: var(--text3); margin-top: 8px; line-height: 1.5; }
 
+  /* Input card */
   .input-card { margin: 0 16px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
   .field { display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid var(--border); }
-  .field-label { font-size: 11px; font-family: var(--mono); color: var(--text3); min-width: 72px; text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; }
+  .field-label { font-size: 11px; font-family: var(--mono); color: var(--text3); min-width: 76px; text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; }
   .field input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-family: var(--font); font-size: 16px; padding: 16px 0 16px 12px; width: 100%; -webkit-appearance: none; }
   .field input::placeholder { color: var(--text3); }
+
+  /* Priority selector */
+  .prio-field { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); gap: 12px; }
+  .prio-label { font-size: 11px; font-family: var(--mono); color: var(--text3); min-width: 76px; text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; }
+  .prio-options { display: flex; gap: 8px; flex: 1; }
+  .prio-btn {
+    flex: 1; height: 36px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text3);
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .prio-btn.p1.active { background: rgba(248,113,113,0.15); border-color: var(--p1); color: var(--p1); }
+  .prio-btn.p2.active { background: rgba(251,146,60,0.15); border-color: var(--p2); color: var(--p2); }
+  .prio-btn.p3.active { background: rgba(74,222,128,0.15); border-color: var(--p3); color: var(--p3); }
+
   .action-row { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--border); align-items: center; }
-  .btn-mic { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border2); background: var(--surface2); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
+  .btn-mic { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border2); background: var(--surface2); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .btn-mic.rec { background: var(--red-dim); border-color: var(--red); color: var(--red); animation: mic-pulse 1s infinite; }
   @keyframes mic-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.3)} 50%{box-shadow:0 0 0 8px rgba(248,113,113,0)} }
   .btn-save { flex: 1; height: 44px; background: var(--green); color: #000; border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 15px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.15s, transform 0.1s; }
@@ -87,10 +108,11 @@
 
   .items { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
   .empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; font-family: var(--mono); border: 1px dashed var(--border); border-radius: var(--radius); white-space: pre-line; line-height: 1.7; }
+
   .item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; animation: slideIn 0.2s ease; }
   @keyframes slideIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
-  .item.synced { border-color: rgba(74,222,128,0.2); }
-  .item.error { border-color: rgba(248,113,113,0.2); }
+  .item.synced { border-color: rgba(74,222,128,0.15); }
+  .item.error { border-color: rgba(248,113,113,0.15); }
   .item-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
   .item-status.ok { background: var(--green); }
   .item-status.err { background: var(--red); }
@@ -100,6 +122,10 @@
   .item-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; align-items: center; }
   .item-ts { font-size: 11px; font-family: var(--mono); color: var(--text3); }
   .item-cat { font-size: 11px; font-family: var(--mono); padding: 2px 8px; border-radius: 6px; background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+  .item-prio { font-size: 11px; font-family: var(--mono); padding: 2px 8px; border-radius: 6px; }
+  .item-prio.hoch { background: rgba(248,113,113,0.12); color: var(--p1); border: 1px solid rgba(248,113,113,0.25); }
+  .item-prio.mittel { background: rgba(251,146,60,0.12); color: var(--p2); border: 1px solid rgba(251,146,60,0.25); }
+  .item-prio.niedrig { background: rgba(74,222,128,0.12); color: var(--p3); border: 1px solid rgba(74,222,128,0.25); }
   .item-sync { font-size: 11px; font-family: var(--mono); }
   .item-sync.ok { color: var(--green); }
   .item-sync.err { color: var(--red); }
@@ -148,6 +174,14 @@
       <span class="field-label">Kategorie</span>
       <input id="cat" type="text" placeholder="Arbeit · Idee · Privat…" autocomplete="off" />
     </div>
+    <div class="prio-field">
+      <span class="prio-label">Priorität</span>
+      <div class="prio-options">
+        <button class="prio-btn p1" data-prio="Hoch">🔴 Hoch</button>
+        <button class="prio-btn p2" data-prio="Mittel">🟠 Mittel</button>
+        <button class="prio-btn p3 active" data-prio="Niedrig">🟢 Niedrig</button>
+      </div>
+    </div>
     <div class="action-row">
       <button class="btn-mic" id="mic-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -194,10 +228,26 @@
 
 <script>
 const DB_ID = '34706a3121ef80858191c5c07907802e';
-let items = JSON.parse(localStorage.getItem('themen_v3') || '[]');
+let items = JSON.parse(localStorage.getItem('themen_v4') || '[]');
 let notionPageId = localStorage.getItem('themen_page_id') || null;
 let proxyUrl = localStorage.getItem('proxy_url') || '';
+let selectedPrio = 'Niedrig';
 let recognition = null, isRecording = false;
+
+// Priority buttons
+document.querySelectorAll('.prio-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.prio-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedPrio = btn.dataset.prio;
+  });
+});
+
+function resetPrio() {
+  document.querySelectorAll('.prio-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.prio-btn.p3').classList.add('active');
+  selectedPrio = 'Niedrig';
+}
 
 function updateBadge() {
   const b = document.getElementById('notion-badge');
@@ -248,7 +298,7 @@ function showToast(msg, type='ok') {
   setTimeout(() => { t.className = 'toast'; }, 2800);
 }
 
-function persist() { localStorage.setItem('themen_v3', JSON.stringify(items)); }
+function persist() { localStorage.setItem('themen_v4', JSON.stringify(items)); }
 
 function updateCount() {
   const n = items.length;
@@ -264,10 +314,25 @@ function renderPageLink() {
 
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+function prioClass(p) {
+  if (p === 'Hoch') return 'hoch';
+  if (p === 'Mittel') return 'mittel';
+  return 'niedrig';
+}
+
+function prioEmoji(p) {
+  if (p === 'Hoch') return '🔴';
+  if (p === 'Mittel') return '🟠';
+  return '🟢';
+}
+
 function render() {
   const list = document.getElementById('list');
   updateCount();
-  if (!items.length) { list.innerHTML = `<div class="empty">Kein Thema gespeichert.\nEinfach oben eingeben\nund auf Speichern tippen.</div>`; return; }
+  if (!items.length) {
+    list.innerHTML = `<div class="empty">Kein Thema gespeichert.\nEinfach oben eingeben\nund auf Speichern tippen.</div>`;
+    return;
+  }
   list.innerHTML = '';
   [...items].reverse().forEach((item, ri) => {
     const i = items.length - 1 - ri;
@@ -280,8 +345,9 @@ function render() {
       <div class="item-body">
         <div class="item-topic">${esc(item.topic)}</div>
         <div class="item-meta">
-          <span class="item-ts">${item.ts}</span>
+          <span class="item-prio ${prioClass(item.prio)}">${prioEmoji(item.prio)} ${item.prio}</span>
           ${item.cat ? `<span class="item-cat">${esc(item.cat)}</span>` : ''}
+          <span class="item-ts">${item.ts}</span>
           <span class="item-sync ${sc}">${sl}</span>
         </div>
       </div>
@@ -294,7 +360,7 @@ function del(i) { items.splice(i, 1); persist(); render(); }
 
 async function ensurePage() {
   if (notionPageId) return notionPageId;
-  if (!proxyUrl) throw new Error('Bitte zuerst Proxy-URL eintragen (Notion ⚙)');
+  if (!proxyUrl) throw new Error('Bitte zuerst Proxy-URL eintragen');
   const res = await fetch(apiUrl('pages'), {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ parent: { database_id: DB_ID }, properties: { Name: { title: [{ text: { content: 'Themenspeicher' } }] } } })
@@ -309,10 +375,16 @@ async function ensurePage() {
 
 async function appendBlock(item) {
   const pageId = await ensurePage();
-  const text = `${item.ts} | ${item.topic}${item.cat ? ' | ' + item.cat : ''}`;
+  // Reihenfolge: Thema | Priorität | Datum (| Kategorie falls vorhanden)
+  const text = `${item.topic} | ${prioEmoji(item.prio)} ${item.prio} | ${item.ts}${item.cat ? ' | ' + item.cat : ''}`;
   const res = await fetch(apiUrl(`blocks/${pageId}/children`), {
     method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ children: [{ object: 'block', type: 'to_do', to_do: { rich_text: [{ type: 'text', text: { content: text } }], checked: false } }] })
+    body: JSON.stringify({
+      children: [{
+        object: 'block', type: 'to_do',
+        to_do: { rich_text: [{ type: 'text', text: { content: text } }], checked: false }
+      }]
+    })
   });
   if (!res.ok) throw new Error('Eintrag konnte nicht gespeichert werden');
 }
@@ -322,11 +394,14 @@ async function saveEntry() {
   const cat = document.getElementById('cat').value.trim();
   if (!topic) { showToast('Bitte ein Thema eingeben', 'err'); return; }
   if (!proxyUrl) { document.getElementById('settings-panel').classList.add('show'); showToast('Bitte zuerst Proxy-URL eintragen', 'err'); return; }
-  const item = { topic, cat, ts: fmt(), synced: false, err: false };
+
+  const item = { topic, cat, prio: selectedPrio, ts: fmt(), synced: false, err: false };
   items.push(item); persist(); render();
   document.getElementById('topic').value = '';
   document.getElementById('cat').value = '';
+  resetPrio();
   showToast('Wird gespeichert…');
+
   try {
     await appendBlock(item);
     items[items.length - 1].synced = true;
@@ -356,7 +431,8 @@ document.getElementById('mic-btn').addEventListener('click', () => {
 
 document.getElementById('export-btn').addEventListener('click', () => {
   if (!items.length) { showToast('Keine Einträge vorhanden', 'err'); return; }
-  const csv = 'Zeitstempel,Thema,Kategorie,Status\n' + items.map(it => `"${it.ts}","${it.topic}","${it.cat || ''}","${it.synced ? 'OK' : 'Fehler'}"`).join('\n');
+  const csv = 'Thema,Priorität,Erfassungsdatum,Kategorie,Status\n' +
+    items.map(it => `"${it.topic}","${it.prio}","${it.ts}","${it.cat || ''}","${it.synced ? 'OK' : 'Fehler'}"`).join('\n');
   document.getElementById('exp-box').value = csv;
   document.getElementById('exp-area').classList.toggle('show');
 });
