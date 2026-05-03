@@ -20,27 +20,60 @@
     display: flex; flex-direction: column; align-items: center;
   }
 
-  /* ── SETUP SCREEN ── */
-  #setupScreen { width: 100%; max-width: 480px; }
-  #setupScreen h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 6px; }
-  #setupScreen p  { font-size: 11px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
-  #setupScreen a  { color: var(--accent); }
-  .setup-field { margin-bottom: 16px; }
-  .setup-field label { display: block; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .setup-field input { width: 100%; background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 13px; padding: 10px 12px; outline: none; color: var(--ink); }
-  .setup-field input:focus { border-color: var(--accent); }
-  .connect-btn { width: 100%; padding: 14px; background: var(--accent); color: #f5f0e8; border: none; border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-top: 8px; }
-  .connect-btn:hover { opacity: 0.88; }
-  .setup-err { margin-top: 10px; font-size: 11px; color: var(--hoch); display: none; }
+  /* ── SETUP ── */
+  #setupScreen { width: 100%; max-width: 500px; }
+  #setupScreen h2 { font-family: 'Playfair Display', serif; font-size: 30px; margin-bottom: 8px; }
+  .setup-intro { font-size: 11px; color: var(--muted); line-height: 1.85; margin-bottom: 24px; }
+  .setup-intro a { color: var(--accent); }
+  .setup-intro strong { color: var(--ink); }
 
-  /* ── MAIN APP ── */
+  .step-block {
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+  }
+  .step-num {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .step-block p { font-size: 11px; color: var(--ink); line-height: 1.7; }
+  .step-block a { color: var(--accent); }
+  .step-block code {
+    background: rgba(0,0,0,0.05); padding: 1px 5px; border-radius: 2px;
+    font-size: 11px; font-family: 'JetBrains Mono', monospace;
+  }
+
+  .setup-field { margin-bottom: 14px; }
+  .setup-field label { display: block; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .setup-field input {
+    width: 100%; background: var(--paper); border: 1px solid var(--border);
+    border-radius: var(--radius); font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; padding: 10px 12px; outline: none; color: var(--ink);
+    transition: border-color 0.2s;
+  }
+  .setup-field input:focus { border-color: var(--accent); }
+
+  .connect-btn {
+    width: 100%; padding: 14px; background: var(--accent); color: #f5f0e8;
+    border: none; border-radius: var(--radius); font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+    margin-top: 8px; transition: opacity 0.15s;
+  }
+  .connect-btn:hover { opacity: 0.88; }
+  .connect-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .setup-err {
+    margin-top: 12px; font-size: 11px; color: var(--hoch); display: none;
+    border-left: 3px solid var(--hoch); padding: 8px 10px;
+    background: rgba(181,42,42,0.04); border-radius: var(--radius); line-height: 1.6;
+  }
+
+  /* ── APP ── */
   #appScreen { display: none; width: 100%; flex-direction: column; align-items: center; }
   header { text-align: center; margin-bottom: 36px; }
   h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px,8vw,60px); font-weight: 700; letter-spacing: -1px; }
   .subtitle { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
   .card { background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 2px 12px rgba(26,22,18,0.08); padding: 30px 24px; width: 100%; max-width: 520px; }
 
-  /* mic */
   .mic-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 28px; }
   .mic-btn { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--border); background: var(--paper); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
   .mic-btn svg { width: 44px; height: 44px; }
@@ -51,13 +84,11 @@
   .mic-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
   .mic-label.active { color: var(--hoch); }
 
-  /* input */
   .field-label { display: block; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .entry-input { width: 100%; background: transparent; border: none; border-bottom: 1.5px solid var(--border); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 16px; padding: 8px 2px; outline: none; transition: border-color 0.2s; }
   .entry-input:focus { border-color: var(--accent); }
   .entry-input::placeholder { color: var(--border); font-size: 13px; }
 
-  /* preview chips */
   .preview { margin-top: 16px; min-height: 28px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
   .chip { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 2px; border: 1px solid var(--border); color: var(--muted); }
   .chip.area-privat  { color: var(--privat); border-color: rgba(30,58,110,0.3); background: rgba(30,58,110,0.05); }
@@ -72,7 +103,6 @@
   .hint { font-size: 10px; color: var(--muted); margin-top: 14px; line-height: 1.8; }
   .hint strong { color: var(--ink); }
 
-  /* save button */
   .save-btn { width: 100%; margin-top: 24px; padding: 15px; background: var(--accent); color: #f5f0e8; border: none; border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
   .save-btn:hover { opacity: 0.88; }
   .save-btn:disabled { opacity: 0.35; cursor: not-allowed; }
@@ -82,10 +112,8 @@
   .status-msg.err  { display:block; border-left-color: var(--hoch); background: rgba(181,42,42,0.05); color: var(--hoch); }
   .status-msg.spin { display:block; border-left-color: var(--border); background: rgba(0,0,0,0.02); color: var(--muted); }
 
-  /* reset link */
-  .reset-link { font-size: 10px; color: var(--muted); text-align: center; margin-top: 16px; cursor: pointer; text-decoration: underline; }
+  .reset-link { font-size: 10px; color: var(--muted); text-align: center; margin-top: 14px; cursor: pointer; text-decoration: underline; }
 
-  /* recent */
   .recent { margin-top: 28px; width: 100%; max-width: 520px; }
   .recent-title { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .entry { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 13px; background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 5px; animation: slideIn 0.25s ease; }
@@ -96,27 +124,47 @@
 </head>
 <body>
 
-<!-- ── SETUP SCREEN ── -->
+<!-- SETUP -->
 <div id="setupScreen">
-  <h2>Connect to Notion</h2>
-  <p>
-    This app saves directly to your Notion <strong>Tasks</strong> database.<br>
-    You only need to do this setup once — your token is saved locally in your browser.<br><br>
-    <strong>How to get your token:</strong><br>
-    1. Go to <a href="https://www.notion.so/profile/integrations" target="_blank">notion.so/profile/integrations</a><br>
-    2. Create a new integration (name it e.g. "Tasks App")<br>
-    3. Copy the <strong>Internal Integration Secret</strong><br>
-    4. In Notion, open the <strong>Tasks</strong> database → ··· menu → <strong>Connections</strong> → add your integration
+  <h2>Setup — One time</h2>
+  <p class="setup-intro">
+    This app saves directly to your Notion <strong>Tasks</strong> database via your own Cloudflare Worker proxy. Everything stays private — your token never leaves your browser.
   </p>
+
+  <div class="step-block">
+    <div class="step-num">Step 1 — Deploy the Cloudflare Worker</div>
+    <p>
+      1. Go to <a href="https://dash.cloudflare.com" target="_blank">dash.cloudflare.com</a> → <strong>Workers &amp; Pages</strong> → <strong>Create Worker</strong><br>
+      2. Replace all code with the contents of <code>notion-proxy-worker.js</code><br>
+      3. Click <strong>Deploy</strong><br>
+      4. Copy your worker URL — it looks like:<br>
+      <code>https://notion-proxy.YOUR-NAME.workers.dev</code>
+    </p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">Step 2 — Get your Notion Integration Token</div>
+    <p>
+      1. Go to <a href="https://www.notion.so/profile/integrations" target="_blank">notion.so/profile/integrations</a><br>
+      2. Create a new integration → copy the <strong>Internal Integration Secret</strong><br>
+      3. In Notion, open <strong>Tasks</strong> database → <strong>···</strong> → <strong>Connections</strong> → add your integration
+    </p>
+  </div>
+
+  <div class="setup-field" style="margin-top:20px">
+    <label>Cloudflare Worker URL</label>
+    <input type="url" id="workerUrl" placeholder="https://notion-proxy.YOUR-NAME.workers.dev" autocomplete="off">
+  </div>
   <div class="setup-field">
     <label>Notion Integration Token</label>
     <input type="password" id="tokenInput" placeholder="secret_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
   </div>
-  <button class="connect-btn" onclick="connect()">Connect & Save</button>
+
+  <button class="connect-btn" id="connectBtn" onclick="connect()">Connect & Save</button>
   <div class="setup-err" id="setupErr"></div>
 </div>
 
-<!-- ── MAIN APP ── -->
+<!-- APP -->
 <div id="appScreen">
   <header>
     <h1>Tasks</h1>
@@ -154,7 +202,7 @@
     <div class="status-msg" id="statusMsg"></div>
   </div>
 
-  <p class="reset-link" onclick="resetToken()">Change Notion token</p>
+  <p class="reset-link" onclick="resetConfig()">Change configuration</p>
 
   <div class="recent" id="recentSection" style="display:none">
     <div class="recent-title">Recently Added</div>
@@ -163,74 +211,84 @@
 </div>
 
 <script>
-  // ── CONFIG ──
   const DB_ID = "34706a3121ef80858191c5c07907802e";
   const NOTION_VERSION = "2022-06-28";
-  // Proxy to avoid CORS — uses a public Notion CORS proxy
-  // We use a simple fetch via a CORS-anywhere approach or direct if allowed
-  const NOTION_API = "https://api.notion.com/v1";
-
   const recentItems = [];
+
   const areaMap = { 'private':'Privat','privat':'Privat','priv':'Privat','dfa':'DFA' };
-  const prioMap = { 'high':'hoch','hoch':'hoch','urgent':'hoch','important':'hoch','medium':'mittel','mittel':'mittel','mid':'mittel','normal':'mittel','low':'niedrig','niedrig':'niedrig','minor':'niedrig','gering':'niedrig' };
+  const prioMap = {
+    'high':'hoch','hoch':'hoch','urgent':'hoch','important':'hoch',
+    'medium':'mittel','mittel':'mittel','mid':'mittel','normal':'mittel',
+    'low':'niedrig','niedrig':'niedrig','minor':'niedrig','gering':'niedrig'
+  };
   const prioLabels = { hoch:'High', mittel:'Medium', niedrig:'Low' };
 
-  // ── TOKEN SETUP ──
-  function getToken() { return localStorage.getItem('notion_token'); }
+  function getConfig() {
+    return {
+      token: localStorage.getItem('notion_token'),
+      worker: localStorage.getItem('notion_worker')
+    };
+  }
 
+  // ── SETUP ──
   async function connect() {
-    const token = document.getElementById('tokenInput').value.trim();
+    const token  = document.getElementById('tokenInput').value.trim();
+    const worker = document.getElementById('workerUrl').value.trim().replace(/\/$/, '');
+
+    if (!worker) { showSetupErr('Please enter your Cloudflare Worker URL.'); return; }
+    if (!token)  { showSetupErr('Please enter your Notion integration token.'); return; }
     if (!token.startsWith('secret_') && !token.startsWith('ntn_')) {
       showSetupErr('Token should start with "secret_" or "ntn_"'); return;
     }
-    // Test token by fetching the database
+
     showSetupErr('');
-    document.querySelector('.connect-btn').textContent = 'Connecting …';
+    const btn = document.getElementById('connectBtn');
+    btn.disabled = true; btn.textContent = 'Connecting …';
+
     try {
-      const res = await notionFetch(`/databases/${DB_ID}`, token);
+      // Test: health check on worker
+      const health = await fetch(worker + '/health');
+      if (!health.ok) throw new Error('Worker not reachable — check the URL.');
+
+      // Test: fetch the database via worker
+      const res = await fetch(`${worker}/v1/databases/${DB_ID}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Notion-Version': NOTION_VERSION
+        }
+      });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.message || 'Could not connect');
+        throw new Error(err.message || `Notion error ${res.status}`);
       }
+
       localStorage.setItem('notion_token', token);
+      localStorage.setItem('notion_worker', worker);
       showApp();
     } catch(e) {
-      showSetupErr('✗ ' + e.message + ' — make sure the integration has access to the Tasks database.');
+      showSetupErr('✗ ' + e.message);
     } finally {
-      document.querySelector('.connect-btn').textContent = 'Connect & Save';
+      btn.disabled = false; btn.textContent = 'Connect & Save';
     }
-  }
-
-  function resetToken() {
-    localStorage.removeItem('notion_token');
-    document.getElementById('appScreen').style.display = 'none';
-    document.getElementById('setupScreen').style.display = 'block';
-    document.getElementById('tokenInput').value = '';
   }
 
   function showSetupErr(msg) {
     const el = document.getElementById('setupErr');
-    el.textContent = msg;
-    el.style.display = msg ? 'block' : 'none';
+    el.textContent = msg; el.style.display = msg ? 'block' : 'none';
+  }
+
+  function resetConfig() {
+    localStorage.removeItem('notion_token');
+    localStorage.removeItem('notion_worker');
+    document.getElementById('appScreen').style.display = 'none';
+    document.getElementById('setupScreen').style.display = 'block';
+    document.getElementById('tokenInput').value = '';
+    document.getElementById('workerUrl').value = '';
   }
 
   function showApp() {
     document.getElementById('setupScreen').style.display = 'none';
     document.getElementById('appScreen').style.display = 'flex';
-  }
-
-  // ── NOTION API ──
-  async function notionFetch(path, token, method='GET', body=null) {
-    const opts = {
-      method,
-      headers: {
-        'Authorization': 'Bearer ' + token,
-        'Notion-Version': NOTION_VERSION,
-        'Content-Type': 'application/json'
-      }
-    };
-    if (body) opts.body = JSON.stringify(body);
-    return fetch(NOTION_API + path, opts);
   }
 
   // ── PARSE ──
@@ -264,8 +322,7 @@
 
   function showStatus(type, msg) {
     const el = document.getElementById('statusMsg');
-    el.className = 'status-msg ' + type;
-    el.textContent = msg;
+    el.className = 'status-msg ' + type; el.textContent = msg;
   }
 
   // ── SAVE ──
@@ -275,25 +332,34 @@
     const { area, task, prio, errors } = parse(raw);
     if (!area || !task) { showStatus('err','⚠ ' + errors.join(' · ')); return; }
 
+    const { token, worker } = getConfig();
     const btn = document.getElementById('saveBtn');
     btn.disabled = true;
     showStatus('spin','⏳ Saving to Notion …');
 
-    const token = getToken();
     const body = {
       parent: { database_id: DB_ID },
       properties: {
-        Tasks: { title: [{ text: { content: task } }] },
-        Area: { select: { name: area } },
+        Tasks:  { title: [{ text: { content: task } }] },
+        Area:   { select: { name: area } },
         Status: { rich_text: [{ text: { content: 'New' } }] }
       }
     };
     if (prio) body.properties.Priority = { select: { name: prio } };
 
     try {
-      const res = await notionFetch('/pages', token, 'POST', body);
+      const res = await fetch(`${worker}/v1/pages`, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Notion-Version': NOTION_VERSION,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Save failed');
+      if (!res.ok) throw new Error(data.message || `HTTP ${res.status}`);
+
       const pLabel = prio ? prioLabels[prio] : '';
       showStatus('ok', `✓ "${task}" saved · ${area}${pLabel?' · '+pLabel:''} · Status: New`);
       addToRecent(task, area, prio);
@@ -362,7 +428,12 @@
 
   // ── INIT ──
   window.onload = () => {
-    if (getToken()) showApp();
+    const { token, worker } = getConfig();
+    if (token && worker) showApp();
+    else {
+      // Pre-fill worker URL if saved
+      if (worker) document.getElementById('workerUrl').value = worker;
+    }
   };
 </script>
 </body>
