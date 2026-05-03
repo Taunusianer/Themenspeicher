@@ -7,298 +7,242 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #f5f0e8;
-    --paper: #fdfaf4;
-    --ink: #1a1612;
-    --muted: #8a8070;
-    --border: #d8cfc0;
-    --accent: #2b4a2b;
-    --privat: #1e3a6e;
-    --dfa: #c45a00;
-    --hoch: #b52a2a;
-    --mittel: #8a6a00;
-    --niedrig: #2b6b2b;
-    --radius: 3px;
-    --shadow: 0 2px 12px rgba(26,22,18,0.08);
+    --bg: #f5f0e8; --paper: #fdfaf4; --ink: #1a1612; --muted: #8a8070;
+    --border: #d8cfc0; --accent: #2b4a2b; --privat: #1e3a6e; --dfa: #c45a00;
+    --hoch: #b52a2a; --mittel: #8a6a00; --niedrig: #2b6b2b; --radius: 3px;
   }
-
   body {
     background: var(--bg);
     background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(180,165,140,0.15) 27px, rgba(180,165,140,0.15) 28px);
-    color: var(--ink);
-    font-family: 'JetBrains Mono', monospace;
-    min-height: 100vh;
-    padding: 48px 20px 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    color: var(--ink); font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh; padding: 40px 16px 60px;
+    display: flex; flex-direction: column; align-items: center;
   }
 
-  header { text-align: center; margin-bottom: 44px; }
+  /* ── SETUP SCREEN ── */
+  #setupScreen { width: 100%; max-width: 480px; }
+  #setupScreen h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 6px; }
+  #setupScreen p  { font-size: 11px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+  #setupScreen a  { color: var(--accent); }
+  .setup-field { margin-bottom: 16px; }
+  .setup-field label { display: block; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .setup-field input { width: 100%; background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 13px; padding: 10px 12px; outline: none; color: var(--ink); }
+  .setup-field input:focus { border-color: var(--accent); }
+  .connect-btn { width: 100%; padding: 14px; background: var(--accent); color: #f5f0e8; border: none; border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-top: 8px; }
+  .connect-btn:hover { opacity: 0.88; }
+  .setup-err { margin-top: 10px; font-size: 11px; color: var(--hoch); display: none; }
 
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(40px, 9vw, 68px);
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: -1px;
-    line-height: 1;
-  }
+  /* ── MAIN APP ── */
+  #appScreen { display: none; width: 100%; flex-direction: column; align-items: center; }
+  header { text-align: center; margin-bottom: 36px; }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px,8vw,60px); font-weight: 700; letter-spacing: -1px; }
+  .subtitle { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .card { background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 2px 12px rgba(26,22,18,0.08); padding: 30px 24px; width: 100%; max-width: 520px; }
 
-  .subtitle {
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 8px;
-  }
-
-  .card {
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 36px 30px;
-    width: 100%;
-    max-width: 560px;
-  }
-
-  .mic-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 32px;
-  }
-
-  .mic-btn {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    background: var(--paper);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  }
+  /* mic */
+  .mic-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .mic-btn { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--border); background: var(--paper); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
   .mic-btn svg { width: 44px; height: 44px; }
-  .mic-btn:hover { border-color: var(--accent); box-shadow: 0 4px 18px rgba(0,0,0,0.13); }
-  .mic-btn.recording {
-    border-color: var(--hoch);
-    background: rgba(181,42,42,0.04);
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-  .mic-btn.recording .mic-line { stroke: var(--hoch); }
-
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(181,42,42,0.35); }
-    50%       { box-shadow: 0 0 0 16px rgba(181,42,42,0); }
-  }
-
-  .mic-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    transition: color 0.2s;
-  }
+  .mic-btn:hover { border-color: var(--accent); }
+  .mic-btn.recording { border-color: var(--hoch); background: rgba(181,42,42,0.04); animation: pulse 1.2s ease-in-out infinite; }
+  .mic-btn.recording .ml { stroke: var(--hoch); }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(181,42,42,0.35)}50%{box-shadow:0 0 0 16px rgba(181,42,42,0)} }
+  .mic-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
   .mic-label.active { color: var(--hoch); }
 
-  .field-label {
-    display: block;
-    font-size: 9px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-
-  .entry-input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1.5px solid var(--border);
-    color: var(--ink);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
-    padding: 8px 2px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
+  /* input */
+  .field-label { display: block; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .entry-input { width: 100%; background: transparent; border: none; border-bottom: 1.5px solid var(--border); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 16px; padding: 8px 2px; outline: none; transition: border-color 0.2s; }
   .entry-input:focus { border-color: var(--accent); }
-  .entry-input::placeholder { color: var(--border); font-size: 14px; }
+  .entry-input::placeholder { color: var(--border); font-size: 13px; }
 
-  .preview {
-    margin-top: 18px;
-    min-height: 30px;
-    display: flex;
-    gap: 7px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .chip {
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 2px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-  .chip.area-privat  { color: var(--privat); border-color: rgba(30,58,110,0.3);  background: rgba(30,58,110,0.05); }
-  .chip.area-dfa     { color: var(--dfa);    border-color: rgba(196,90,0,0.3);   background: rgba(196,90,0,0.05); }
-  .chip.c-task       { color: var(--ink); border-color: var(--border); background: rgba(0,0,0,0.02); font-size: 11px; text-transform: none; letter-spacing: 0; }
-  .chip.prio-hoch    { color: var(--hoch);    border-color: rgba(181,42,42,0.3);  background: rgba(181,42,42,0.05); }
-  .chip.prio-mittel  { color: var(--mittel);  border-color: rgba(138,106,0,0.3);  background: rgba(138,106,0,0.05); }
-  .chip.prio-niedrig { color: var(--niedrig); border-color: rgba(43,107,43,0.3);  background: rgba(43,107,43,0.05); }
+  /* preview chips */
+  .preview { margin-top: 16px; min-height: 28px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .chip { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 2px; border: 1px solid var(--border); color: var(--muted); }
+  .chip.area-privat  { color: var(--privat); border-color: rgba(30,58,110,0.3); background: rgba(30,58,110,0.05); }
+  .chip.area-dfa     { color: var(--dfa); border-color: rgba(196,90,0,0.3); background: rgba(196,90,0,0.05); }
+  .chip.c-task       { color: var(--ink); font-size: 11px; text-transform: none; letter-spacing: 0; }
+  .chip.prio-hoch    { color: var(--hoch); border-color: rgba(181,42,42,0.3); background: rgba(181,42,42,0.05); }
+  .chip.prio-mittel  { color: var(--mittel); border-color: rgba(138,106,0,0.3); background: rgba(138,106,0,0.05); }
+  .chip.prio-niedrig { color: var(--niedrig); border-color: rgba(43,107,43,0.3); background: rgba(43,107,43,0.05); }
   .chip.c-status     { color: var(--muted); font-style: italic; }
   .chip.c-error      { color: var(--hoch); border-color: rgba(181,42,42,0.3); background: rgba(181,42,42,0.04); }
 
-  .hint {
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 16px;
-    line-height: 1.8;
-  }
+  .hint { font-size: 10px; color: var(--muted); margin-top: 14px; line-height: 1.8; }
   .hint strong { color: var(--ink); }
 
-  .save-btn {
-    width: 100%;
-    margin-top: 28px;
-    padding: 16px;
-    background: var(--accent);
-    color: #f5f0e8;
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-  }
-  .save-btn:hover  { opacity: 0.88; }
-  .save-btn:active { transform: scale(0.99); }
+  /* save button */
+  .save-btn { width: 100%; margin-top: 24px; padding: 15px; background: var(--accent); color: #f5f0e8; border: none; border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
+  .save-btn:hover { opacity: 0.88; }
   .save-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-  .status-msg {
-    margin-top: 14px;
-    padding: 11px 14px;
-    border-radius: var(--radius);
-    font-size: 11px;
-    display: none;
-    border-left: 3px solid transparent;
-  }
-  .status-msg.ok   { display:block; border-left-color: var(--niedrig); background: rgba(43,107,43,0.05);  color: var(--niedrig); }
-  .status-msg.err  { display:block; border-left-color: var(--hoch);    background: rgba(181,42,42,0.05); color: var(--hoch); }
-  .status-msg.spin { display:block; border-left-color: var(--border);  background: rgba(0,0,0,0.02);      color: var(--muted); }
+  .status-msg { margin-top: 12px; padding: 10px 14px; border-radius: var(--radius); font-size: 11px; display: none; border-left: 3px solid transparent; }
+  .status-msg.ok   { display:block; border-left-color: var(--niedrig); background: rgba(43,107,43,0.05); color: var(--niedrig); }
+  .status-msg.err  { display:block; border-left-color: var(--hoch); background: rgba(181,42,42,0.05); color: var(--hoch); }
+  .status-msg.spin { display:block; border-left-color: var(--border); background: rgba(0,0,0,0.02); color: var(--muted); }
 
-  .recent { margin-top: 32px; width: 100%; max-width: 560px; }
-  .recent-title { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  /* reset link */
+  .reset-link { font-size: 10px; color: var(--muted); text-align: center; margin-top: 16px; cursor: pointer; text-decoration: underline; }
 
-  .entry {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 12px 14px;
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 6px;
-    animation: slideIn 0.25s ease;
-  }
-  @keyframes slideIn {
-    from { opacity:0; transform:translateX(-6px); }
-    to   { opacity:1; transform:translateX(0); }
-  }
+  /* recent */
+  .recent { margin-top: 28px; width: 100%; max-width: 520px; }
+  .recent-title { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .entry { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 13px; background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 5px; animation: slideIn 0.25s ease; }
+  @keyframes slideIn { from{opacity:0;transform:translateX(-6px)} to{opacity:1;transform:translateX(0)} }
   .entry-name { font-size: 13px; color: var(--ink); flex: 1; }
   .entry-tags { display: flex; gap: 5px; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Tasks</h1>
-  <p class="subtitle">Notion · New Entry</p>
-</header>
-
-<div class="card">
-
-  <div class="mic-wrap">
-    <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Speak your entry">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path class="mic-line" d="M12 2a3.5 3.5 0 0 1 3.5 3.5v6a3.5 3.5 0 0 1-7 0V5.5A3.5 3.5 0 0 1 12 2z" stroke="#1a1612" stroke-width="1.5" fill="none"/>
-        <path class="mic-line" d="M19 11a7 7 0 0 1-14 0" stroke="#1a1612" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        <line class="mic-line" x1="12" y1="18" x2="12" y2="22" stroke="#1a1612" stroke-width="1.5" stroke-linecap="round"/>
-        <line class="mic-line" x1="9"  y1="22" x2="15" y2="22" stroke="#1a1612" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-    <span class="mic-label" id="micLabel">Tap to speak</span>
-  </div>
-
-  <span class="field-label">Area, Task, Priority — comma separated</span>
-  <input
-    type="text"
-    class="entry-input"
-    id="entryInput"
-    placeholder="e.g.  DFA, Prepare report, High"
-    autocomplete="off"
-    oninput="updatePreview()"
-    onkeydown="if(event.key==='Enter') saveEntry()"
-  >
-
-  <div class="preview" id="preview"></div>
-
-  <p class="hint">
-    <strong>Area:</strong> Private &nbsp;or&nbsp; DFA &nbsp;·&nbsp;
-    <strong>Priority:</strong> High · Medium · Low<br>
-    <strong>Enter</strong> to save &nbsp;·&nbsp; <strong>Mic</strong> to dictate &nbsp;·&nbsp; Status auto-set to <strong>New</strong>
+<!-- ── SETUP SCREEN ── -->
+<div id="setupScreen">
+  <h2>Connect to Notion</h2>
+  <p>
+    This app saves directly to your Notion <strong>Tasks</strong> database.<br>
+    You only need to do this setup once — your token is saved locally in your browser.<br><br>
+    <strong>How to get your token:</strong><br>
+    1. Go to <a href="https://www.notion.so/profile/integrations" target="_blank">notion.so/profile/integrations</a><br>
+    2. Create a new integration (name it e.g. "Tasks App")<br>
+    3. Copy the <strong>Internal Integration Secret</strong><br>
+    4. In Notion, open the <strong>Tasks</strong> database → ··· menu → <strong>Connections</strong> → add your integration
   </p>
-
-  <button class="save-btn" id="saveBtn" onclick="saveEntry()">+ Save to Notion</button>
-  <div class="status-msg" id="statusMsg"></div>
+  <div class="setup-field">
+    <label>Notion Integration Token</label>
+    <input type="password" id="tokenInput" placeholder="secret_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+  </div>
+  <button class="connect-btn" onclick="connect()">Connect & Save</button>
+  <div class="setup-err" id="setupErr"></div>
 </div>
 
-<div class="recent" id="recentSection" style="display:none">
-  <div class="recent-title">Recently Added</div>
-  <div id="entryList"></div>
+<!-- ── MAIN APP ── -->
+<div id="appScreen">
+  <header>
+    <h1>Tasks</h1>
+    <p class="subtitle">Notion · New Entry</p>
+  </header>
+
+  <div class="card">
+    <div class="mic-wrap">
+      <button class="mic-btn" id="micBtn" onclick="toggleMic()">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path class="ml" d="M12 2a3.5 3.5 0 0 1 3.5 3.5v6a3.5 3.5 0 0 1-7 0V5.5A3.5 3.5 0 0 1 12 2z" stroke="#1a1612" stroke-width="1.5" fill="none"/>
+          <path class="ml" d="M19 11a7 7 0 0 1-14 0" stroke="#1a1612" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <line class="ml" x1="12" y1="18" x2="12" y2="22" stroke="#1a1612" stroke-width="1.5" stroke-linecap="round"/>
+          <line class="ml" x1="9" y1="22" x2="15" y2="22" stroke="#1a1612" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <span class="mic-label" id="micLabel">Tap to speak</span>
+    </div>
+
+    <span class="field-label">Area, Task, Priority — comma separated</span>
+    <input type="text" class="entry-input" id="entryInput"
+      placeholder="e.g.  DFA, Prepare report, High"
+      autocomplete="off"
+      oninput="updatePreview()"
+      onkeydown="if(event.key==='Enter') saveEntry()">
+
+    <div class="preview" id="preview"></div>
+
+    <p class="hint">
+      <strong>Area:</strong> Private or DFA &nbsp;·&nbsp; <strong>Priority:</strong> High · Medium · Low<br>
+      <strong>Enter</strong> to save &nbsp;·&nbsp; <strong>Mic</strong> to dictate &nbsp;·&nbsp; Status auto-set to <strong>New</strong>
+    </p>
+
+    <button class="save-btn" id="saveBtn" onclick="saveEntry()">+ Save to Notion</button>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+
+  <p class="reset-link" onclick="resetToken()">Change Notion token</p>
+
+  <div class="recent" id="recentSection" style="display:none">
+    <div class="recent-title">Recently Added</div>
+    <div id="entryList"></div>
+  </div>
 </div>
 
 <script>
-  const DS_ID = "34706a31-21ef-80a9-acfe-000b283b84f8";
+  // ── CONFIG ──
+  const DB_ID = "34706a3121ef80858191c5c07907802e";
+  const NOTION_VERSION = "2022-06-28";
+  // Proxy to avoid CORS — uses a public Notion CORS proxy
+  // We use a simple fetch via a CORS-anywhere approach or direct if allowed
+  const NOTION_API = "https://api.notion.com/v1";
+
   const recentItems = [];
+  const areaMap = { 'private':'Privat','privat':'Privat','priv':'Privat','dfa':'DFA' };
+  const prioMap = { 'high':'hoch','hoch':'hoch','urgent':'hoch','important':'hoch','medium':'mittel','mittel':'mittel','mid':'mittel','normal':'mittel','low':'niedrig','niedrig':'niedrig','minor':'niedrig','gering':'niedrig' };
+  const prioLabels = { hoch:'High', mittel:'Medium', niedrig:'Low' };
 
-  const areaMap = {
-    'private': 'Privat', 'privat': 'Privat', 'priv': 'Privat', 'dfa': 'DFA'
-  };
+  // ── TOKEN SETUP ──
+  function getToken() { return localStorage.getItem('notion_token'); }
 
-  const prioMap = {
-    'high': 'hoch', 'hoch': 'hoch', 'urgent': 'hoch', 'important': 'hoch',
-    'medium': 'mittel', 'mittel': 'mittel', 'mid': 'mittel', 'normal': 'mittel',
-    'low': 'niedrig', 'niedrig': 'niedrig', 'minor': 'niedrig', 'gering': 'niedrig'
-  };
+  async function connect() {
+    const token = document.getElementById('tokenInput').value.trim();
+    if (!token.startsWith('secret_') && !token.startsWith('ntn_')) {
+      showSetupErr('Token should start with "secret_" or "ntn_"'); return;
+    }
+    // Test token by fetching the database
+    showSetupErr('');
+    document.querySelector('.connect-btn').textContent = 'Connecting …';
+    try {
+      const res = await notionFetch(`/databases/${DB_ID}`, token);
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || 'Could not connect');
+      }
+      localStorage.setItem('notion_token', token);
+      showApp();
+    } catch(e) {
+      showSetupErr('✗ ' + e.message + ' — make sure the integration has access to the Tasks database.');
+    } finally {
+      document.querySelector('.connect-btn').textContent = 'Connect & Save';
+    }
+  }
 
-  const prioLabels = { hoch: 'High', mittel: 'Medium', niedrig: 'Low' };
+  function resetToken() {
+    localStorage.removeItem('notion_token');
+    document.getElementById('appScreen').style.display = 'none';
+    document.getElementById('setupScreen').style.display = 'block';
+    document.getElementById('tokenInput').value = '';
+  }
 
+  function showSetupErr(msg) {
+    const el = document.getElementById('setupErr');
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  function showApp() {
+    document.getElementById('setupScreen').style.display = 'none';
+    document.getElementById('appScreen').style.display = 'flex';
+  }
+
+  // ── NOTION API ──
+  async function notionFetch(path, token, method='GET', body=null) {
+    const opts = {
+      method,
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Notion-Version': NOTION_VERSION,
+        'Content-Type': 'application/json'
+      }
+    };
+    if (body) opts.body = JSON.stringify(body);
+    return fetch(NOTION_API + path, opts);
+  }
+
+  // ── PARSE ──
   function parse(raw) {
     const parts = raw.split(',').map(p => p.trim()).filter(Boolean);
-    let area = null, task = null, prio = null, errors = [];
-
+    let area=null, task=null, prio=null, errors=[];
     for (const part of parts) {
       const lower = part.toLowerCase();
-      if (!area && areaMap[lower]) { area = areaMap[lower]; continue; }
-      if (!prio && prioMap[lower]) { prio = prioMap[lower]; continue; }
-      if (!task) { task = part; continue; }
+      if (!area && areaMap[lower]) { area=areaMap[lower]; continue; }
+      if (!prio && prioMap[lower]) { prio=prioMap[lower]; continue; }
+      if (!task) { task=part; continue; }
     }
-
     if (!area) errors.push('Area missing (Private / DFA)');
     if (!task) errors.push('Task missing');
     return { area, task, prio, errors };
@@ -307,8 +251,7 @@
   function updatePreview() {
     const raw = document.getElementById('entryInput').value;
     const preview = document.getElementById('preview');
-    if (!raw.trim()) { preview.innerHTML = ''; return; }
-
+    if (!raw.trim()) { preview.innerHTML=''; return; }
     const { area, task, prio, errors } = parse(raw);
     let html = '';
     if (area) html += `<span class="chip area-${area.toLowerCase()}">${area}</span>`;
@@ -325,95 +268,77 @@
     el.textContent = msg;
   }
 
+  // ── SAVE ──
   async function saveEntry() {
     const raw = document.getElementById('entryInput').value.trim();
-    if (!raw) { showStatus('err', '⚠ Please enter or speak a value first.'); return; }
-
+    if (!raw) { showStatus('err','⚠ Please enter or speak a value first.'); return; }
     const { area, task, prio, errors } = parse(raw);
-    if (!area || !task) { showStatus('err', '⚠ ' + errors.join(' · ')); return; }
+    if (!area || !task) { showStatus('err','⚠ ' + errors.join(' · ')); return; }
 
     const btn = document.getElementById('saveBtn');
     btn.disabled = true;
-    showStatus('spin', '⏳ Saving to Notion …');
+    showStatus('spin','⏳ Saving to Notion …');
 
-    const prioLine = prio ? `- Priority (select): "${prio}"` : '';
+    const token = getToken();
+    const body = {
+      parent: { database_id: DB_ID },
+      properties: {
+        Tasks: { title: [{ text: { content: task } }] },
+        Area: { select: { name: area } },
+        Status: { rich_text: [{ text: { content: 'New' } }] }
+      }
+    };
+    if (prio) body.properties.Priority = { select: { name: prio } };
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          mcp_servers: [{ type: "url", url: "https://mcp.notion.com/mcp", name: "notion-mcp" }],
-          messages: [{
-            role: "user",
-            content: `Create a page in the Notion data source with id "${DS_ID}".
-Properties:
-- Tasks (title): "${task}"
-- Area (select): "${area}"
-- Status (text): "New"
-${prioLine}
-Reply only: DONE`
-          }]
-        })
-      });
-
+      const res = await notionFetch('/pages', token, 'POST', body);
       const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-
+      if (!res.ok) throw new Error(data.message || 'Save failed');
       const pLabel = prio ? prioLabels[prio] : '';
-      showStatus('ok', `✓ "${task}" saved · ${area}${pLabel ? ' · ' + pLabel : ''} · Status: New`);
+      showStatus('ok', `✓ "${task}" saved · ${area}${pLabel?' · '+pLabel:''} · Status: New`);
       addToRecent(task, area, prio);
-
       document.getElementById('entryInput').value = '';
       document.getElementById('preview').innerHTML = '';
-    } catch (e) {
-      showStatus('err', '✗ Error: ' + e.message);
+    } catch(e) {
+      showStatus('err','✗ ' + e.message);
     } finally {
       btn.disabled = false;
     }
   }
 
   // ── VOICE ──
-  let recognition = null, isRecording = false;
-
+  let recognition=null, isRecording=false;
   function toggleMic() {
     if (isRecording) { stopMic(); return; }
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      showStatus('err', '⚠ Speech recognition not supported in this browser.'); return;
+      showStatus('err','⚠ Speech recognition not supported in this browser.'); return;
     }
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition = new SR();
     recognition.lang = 'en-US';
     recognition.interimResults = false;
     recognition.maxAlternatives = 3;
-
     recognition.onstart = () => {
-      isRecording = true;
+      isRecording=true;
       document.getElementById('micBtn').classList.add('recording');
-      document.getElementById('micLabel').textContent = 'Listening …';
+      document.getElementById('micLabel').textContent='Listening …';
       document.getElementById('micLabel').classList.add('active');
     };
-
     recognition.onresult = (e) => {
       let text = e.results[0][0].transcript.trim();
-      // Replace spoken "comma" with actual comma
-      text = text.replace(/\bcomma\b/gi, ',').replace(/\s*,\s*/g, ', ');
+      text = text.replace(/\bcomma\b/gi,',').replace(/\s*,\s*/g,', ');
       document.getElementById('entryInput').value = text;
       updatePreview();
     };
-
-    recognition.onerror = (e) => { showStatus('err', '⚠ Voice error: ' + e.error); stopMic(); };
+    recognition.onerror = (e) => { showStatus('err','⚠ Voice error: '+e.error); stopMic(); };
     recognition.onend = () => stopMic();
     recognition.start();
   }
-
   function stopMic() {
-    isRecording = false;
+    isRecording=false;
     if (recognition) { try { recognition.stop(); } catch(e){} }
     document.getElementById('micBtn').classList.remove('recording');
-    document.getElementById('micLabel').textContent = 'Tap to speak';
+    document.getElementById('micLabel').textContent='Tap to speak';
     document.getElementById('micLabel').classList.remove('active');
   }
 
@@ -423,7 +348,6 @@ Reply only: DONE`
     if (recentItems.length > 6) recentItems.pop();
     renderRecent();
   }
-
   function renderRecent() {
     const sec = document.getElementById('recentSection');
     const list = document.getElementById('entryList');
@@ -435,6 +359,11 @@ Reply only: DONE`
     });
     sec.style.display = 'block';
   }
+
+  // ── INIT ──
+  window.onload = () => {
+    if (getToken()) showApp();
+  };
 </script>
 </body>
 </html>
