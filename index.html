@@ -26,46 +26,19 @@
   .setup-intro { font-size: 11px; color: var(--muted); line-height: 1.85; margin-bottom: 24px; }
   .setup-intro a { color: var(--accent); }
   .setup-intro strong { color: var(--ink); }
-
-  .step-block {
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
-  }
-  .step-num {
-    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 6px;
-  }
+  .step-block { background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; }
+  .step-num { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
   .step-block p { font-size: 11px; color: var(--ink); line-height: 1.7; }
   .step-block a { color: var(--accent); }
-  .step-block code {
-    background: rgba(0,0,0,0.05); padding: 1px 5px; border-radius: 2px;
-    font-size: 11px; font-family: 'JetBrains Mono', monospace;
-  }
-
+  .step-block code { background: rgba(0,0,0,0.05); padding: 1px 5px; border-radius: 2px; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
   .setup-field { margin-bottom: 14px; }
   .setup-field label { display: block; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .setup-field input {
-    width: 100%; background: var(--paper); border: 1px solid var(--border);
-    border-radius: var(--radius); font-family: 'JetBrains Mono', monospace;
-    font-size: 13px; padding: 10px 12px; outline: none; color: var(--ink);
-    transition: border-color 0.2s;
-  }
+  .setup-field input { width: 100%; background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 13px; padding: 10px 12px; outline: none; color: var(--ink); transition: border-color 0.2s; }
   .setup-field input:focus { border-color: var(--accent); }
-
-  .connect-btn {
-    width: 100%; padding: 14px; background: var(--accent); color: #f5f0e8;
-    border: none; border-radius: var(--radius); font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
-    margin-top: 8px; transition: opacity 0.15s;
-  }
+  .connect-btn { width: 100%; padding: 14px; background: var(--accent); color: #f5f0e8; border: none; border-radius: var(--radius); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-top: 8px; transition: opacity 0.15s; }
   .connect-btn:hover { opacity: 0.88; }
   .connect-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .setup-err {
-    margin-top: 12px; font-size: 11px; color: var(--hoch); display: none;
-    border-left: 3px solid var(--hoch); padding: 8px 10px;
-    background: rgba(181,42,42,0.04); border-radius: var(--radius); line-height: 1.6;
-  }
+  .setup-err { margin-top: 12px; font-size: 11px; color: var(--hoch); display: none; border-left: 3px solid var(--hoch); padding: 8px 10px; background: rgba(181,42,42,0.04); border-radius: var(--radius); line-height: 1.6; }
 
   /* ── APP ── */
   #appScreen { display: none; width: 100%; flex-direction: column; align-items: center; }
@@ -74,6 +47,7 @@
   .subtitle { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
   .card { background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 2px 12px rgba(26,22,18,0.08); padding: 30px 24px; width: 100%; max-width: 520px; }
 
+  /* mic */
   .mic-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 28px; }
   .mic-btn { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--border); background: var(--paper); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
   .mic-btn svg { width: 44px; height: 44px; }
@@ -84,11 +58,13 @@
   .mic-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
   .mic-label.active { color: var(--hoch); }
 
+  /* input */
   .field-label { display: block; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .entry-input { width: 100%; background: transparent; border: none; border-bottom: 1.5px solid var(--border); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 16px; padding: 8px 2px; outline: none; transition: border-color 0.2s; }
   .entry-input:focus { border-color: var(--accent); }
   .entry-input::placeholder { color: var(--border); font-size: 13px; }
 
+  /* chips */
   .preview { margin-top: 16px; min-height: 28px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
   .chip { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 2px; border: 1px solid var(--border); color: var(--muted); }
   .chip.area-privat  { color: var(--privat); border-color: rgba(30,58,110,0.3); background: rgba(30,58,110,0.05); }
@@ -97,7 +73,7 @@
   .chip.prio-hoch    { color: var(--hoch); border-color: rgba(181,42,42,0.3); background: rgba(181,42,42,0.05); }
   .chip.prio-mittel  { color: var(--mittel); border-color: rgba(138,106,0,0.3); background: rgba(138,106,0,0.05); }
   .chip.prio-niedrig { color: var(--niedrig); border-color: rgba(43,107,43,0.3); background: rgba(43,107,43,0.05); }
-  .chip.c-status     { color: var(--muted); font-style: italic; }
+  .chip.c-auto       { color: var(--muted); font-style: italic; }
   .chip.c-error      { color: var(--hoch); border-color: rgba(181,42,42,0.3); background: rgba(181,42,42,0.04); }
 
   .hint { font-size: 10px; color: var(--muted); margin-top: 14px; line-height: 1.8; }
@@ -114,6 +90,7 @@
 
   .reset-link { font-size: 10px; color: var(--muted); text-align: center; margin-top: 14px; cursor: pointer; text-decoration: underline; }
 
+  /* recent */
   .recent { margin-top: 28px; width: 100%; max-width: 520px; }
   .recent-title { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .entry { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 13px; background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 5px; animation: slideIn 0.25s ease; }
@@ -128,7 +105,8 @@
 <div id="setupScreen">
   <h2>Setup — One time</h2>
   <p class="setup-intro">
-    This app saves directly to your Notion <strong>Tasks</strong> database via your own Cloudflare Worker proxy. Everything stays private — your token never leaves your browser.
+    Saves directly to your Notion <strong>Tasks</strong> database via your Cloudflare Worker proxy.<br>
+    Your token is stored locally in your browser only.
   </p>
 
   <div class="step-block">
@@ -136,9 +114,7 @@
     <p>
       1. Go to <a href="https://dash.cloudflare.com" target="_blank">dash.cloudflare.com</a> → <strong>Workers &amp; Pages</strong> → <strong>Create Worker</strong><br>
       2. Replace all code with the contents of <code>notion-proxy-worker.js</code><br>
-      3. Click <strong>Deploy</strong><br>
-      4. Copy your worker URL — it looks like:<br>
-      <code>https://notion-proxy.YOUR-NAME.workers.dev</code>
+      3. Click <strong>Deploy</strong> — copy your worker URL
     </p>
   </div>
 
@@ -147,7 +123,7 @@
     <p>
       1. Go to <a href="https://www.notion.so/profile/integrations" target="_blank">notion.so/profile/integrations</a><br>
       2. Create a new integration → copy the <strong>Internal Integration Secret</strong><br>
-      3. In Notion, open <strong>Tasks</strong> database → <strong>···</strong> → <strong>Connections</strong> → add your integration
+      3. In Notion: <strong>Tasks</strong> database → <strong>···</strong> → <strong>Connections</strong> → add your integration
     </p>
   </div>
 
@@ -195,7 +171,8 @@
 
     <p class="hint">
       <strong>Area:</strong> Private or DFA &nbsp;·&nbsp; <strong>Priority:</strong> High · Medium · Low<br>
-      <strong>Enter</strong> to save &nbsp;·&nbsp; <strong>Mic</strong> to dictate &nbsp;·&nbsp; Status auto-set to <strong>New</strong>
+      <strong>Enter</strong> to save &nbsp;·&nbsp; <strong>Mic</strong> to dictate<br>
+      <span style="opacity:0.7">Auto-filled: Status → <em>New</em> · Remarks → <em>n/a</em> · Recording Date → <em>today</em></span>
     </p>
 
     <button class="save-btn" id="saveBtn" onclick="saveEntry()">+ Save to Notion</button>
@@ -223,6 +200,15 @@
   };
   const prioLabels = { hoch:'High', mittel:'Medium', niedrig:'Low' };
 
+  // Returns today as ISO date string YYYY-MM-DD in local time
+  function todayISO() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
   function getConfig() {
     return {
       token: localStorage.getItem('notion_token'),
@@ -234,34 +220,24 @@
   async function connect() {
     const token  = document.getElementById('tokenInput').value.trim();
     const worker = document.getElementById('workerUrl').value.trim().replace(/\/$/, '');
-
     if (!worker) { showSetupErr('Please enter your Cloudflare Worker URL.'); return; }
     if (!token)  { showSetupErr('Please enter your Notion integration token.'); return; }
     if (!token.startsWith('secret_') && !token.startsWith('ntn_')) {
       showSetupErr('Token should start with "secret_" or "ntn_"'); return;
     }
-
     showSetupErr('');
     const btn = document.getElementById('connectBtn');
     btn.disabled = true; btn.textContent = 'Connecting …';
-
     try {
-      // Test: health check on worker
       const health = await fetch(worker + '/health');
       if (!health.ok) throw new Error('Worker not reachable — check the URL.');
-
-      // Test: fetch the database via worker
       const res = await fetch(`${worker}/v1/databases/${DB_ID}`, {
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Notion-Version': NOTION_VERSION
-        }
+        headers: { 'Authorization': 'Bearer ' + token, 'Notion-Version': NOTION_VERSION }
       });
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err.message || `Notion error ${res.status}`);
       }
-
       localStorage.setItem('notion_token', token);
       localStorage.setItem('notion_worker', worker);
       showApp();
@@ -315,7 +291,9 @@
     if (area) html += `<span class="chip area-${area.toLowerCase()}">${area}</span>`;
     if (task) html += `<span class="chip c-task">${task}</span>`;
     if (prio) html += `<span class="chip prio-${prio}">${prioLabels[prio]}</span>`;
-    html += `<span class="chip c-status">Status: New</span>`;
+    html += `<span class="chip c-auto">Status: New</span>`;
+    html += `<span class="chip c-auto">Remarks: n/a</span>`;
+    html += `<span class="chip c-auto">📅 ${todayISO()}</span>`;
     for (const e of errors) html += `<span class="chip c-error">⚠ ${e}</span>`;
     preview.innerHTML = html;
   }
@@ -337,12 +315,16 @@
     btn.disabled = true;
     showStatus('spin','⏳ Saving to Notion …');
 
+    const today = todayISO();
+
     const body = {
       parent: { database_id: DB_ID },
       properties: {
-        Tasks:  { title: [{ text: { content: task } }] },
-        Area:   { select: { name: area } },
-        Status: { rich_text: [{ text: { content: 'New' } }] }
+        Tasks:   { title: [{ text: { content: task } }] },
+        Area:    { select: { name: area } },
+        Status:  { rich_text: [{ text: { content: 'New' } }] },
+        Remarks: { rich_text: [{ text: { content: 'n/a' } }] },
+        'Recording Date': { date: { start: today } }
       }
     };
     if (prio) body.properties.Priority = { select: { name: prio } };
@@ -361,7 +343,7 @@
       if (!res.ok) throw new Error(data.message || `HTTP ${res.status}`);
 
       const pLabel = prio ? prioLabels[prio] : '';
-      showStatus('ok', `✓ "${task}" saved · ${area}${pLabel?' · '+pLabel:''} · Status: New`);
+      showStatus('ok', `✓ "${task}" saved · ${area}${pLabel?' · '+pLabel:''} · ${today}`);
       addToRecent(task, area, prio);
       document.getElementById('entryInput').value = '';
       document.getElementById('preview').innerHTML = '';
@@ -430,10 +412,7 @@
   window.onload = () => {
     const { token, worker } = getConfig();
     if (token && worker) showApp();
-    else {
-      // Pre-fill worker URL if saved
-      if (worker) document.getElementById('workerUrl').value = worker;
-    }
+    else if (worker) document.getElementById('workerUrl').value = worker;
   };
 </script>
 </body>
